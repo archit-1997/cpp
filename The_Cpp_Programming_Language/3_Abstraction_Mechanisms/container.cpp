@@ -4,6 +4,7 @@
 
 // concrete class Vector
 #include <iostream>
+#include <list>
 using namespace std;
 
 class Vector {
@@ -57,6 +58,34 @@ public:
                          // concrete class Vector
 };
 
+//adding another implementation of Container : List_Container
+class List_container : public Container {
+public : 
+  //explicitly specified the default constructor
+  List_container(){}
+  //parameterized constructor
+  List_container(std::initializer_list<double> ld) : list_double{ld}{}
+  //destructor
+  ~List_container(){}
+  double& operator[](int i){
+    //implemented out of range for accessor
+    for(auto& elem : list_double){
+      //we need to return the ith element. so when i==0, we have to return the value of the list
+      if(i==0)
+        return elem;
+      --i;
+    }
+    //if we've reached here, then that means that we should throw out of bounds
+    throw out_of_range("List Container !!");
+  }
+  int size(){
+    return list_double.size();
+  }
+  
+private : 
+  list<double> list_double;
+};
+
 //a method that only knows about the interface Container
 //this doesn't need to know how the interface has been implemented
 //this method will work for any implementation of the interface container
@@ -96,6 +125,16 @@ int main() {
 
   printContainer(v);
   printContainer(vl);
+
+
+  //using the ListContainer
+  List_container ls{1,2,3};
+
+  cout<<"Printing the elments of the List_container \n";
+  for(int i=0;i<ls.size();i++){
+    cout<<"Element at index " << i << " in the list is " << ls[i]<<"\n";
+  }
+  cout<<"Done printing elments of the List_container \n";
 
   return 0;
 }
