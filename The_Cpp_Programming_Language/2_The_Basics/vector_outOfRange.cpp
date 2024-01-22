@@ -3,7 +3,14 @@ using namespace std;
 
 class Vector {
 public:
-  Vector(int s) : elem{new double[s]}, sz{s} {}
+  Vector(int s) {
+    // check length error
+    if (s < 0) {
+      throw length_error("length is negative");
+    }
+    elem = new double[s];
+    sz = s;
+  }
 
   ~Vector() { delete[] elem; }
 
@@ -30,6 +37,7 @@ private:
 int main() {
 
   Vector v{1, 2, 3};
+  Vector v2(-3);
 
   cout << "The size of vector v is : " << v.size() << "\n";
 
