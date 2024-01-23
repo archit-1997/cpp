@@ -50,6 +50,10 @@ Vector operator+(Vector &a, Vector &b) {
   Vector res(a.size());
   for (int i = 0; i < a.size(); i++)
     res[i] = a[i] + b[i];
+  // note that this res is just being used for copy purpose
+  // we don't use this after we've performed copy
+  // Did we really wanted to copy? NO
+  // we only wanted the result out of the function operator+
   return res;
 }
 
