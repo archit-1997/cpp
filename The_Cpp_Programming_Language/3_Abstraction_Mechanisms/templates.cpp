@@ -11,26 +11,33 @@
 using namespace std;
 
 template <typename T> // this make T as the parameter of the declaration it
-                      // prefixes
 class Vector {
 public:
   Vector(int sz) : elem{new T[sz]}, sz{sz} {}
   ~Vector() { delete[] elem; }
-  Vector(initializer_list<T> ld)
-      : elem{new T[ld.size()]}, sz{static_cast<int>(ld.size())} {
-    copy(ld.begin(), ld.end(), elem);
-  }
+  // Vector(initializer_list<T> ld)
+  //     : elem{new T[ld.size()]}, sz{static_cast<int>(ld.size())} {
+  //   copy(ld.begin(), ld.end(), elem);
+  // }
   int size() { return sz; }
   T &operator[](int i) { return elem[i]; }
+  // adding support for range based for loop
 
 private:
   int sz;
   T *elem;
 };
 
+template <typename T> T *begin(Vector<T> &v) { return &v[0]; }
+template <typename T> T *end(Vector<T> &v) { return (v.begin() + v.size()); }
+
 int main() {
-  Vector<double> v{1, 2, 3};
-  Vector<int> v1;
+  Vector<double> v(5);
   for (int i = 0; i < v.size(); i++)
-    cout << "Element at index " << i << " is : " << v[i] << "\n";
+    v[i] = i * 5;
+  // for (int i = 0; i < v.size(); i++)
+  //   cout << "Element at index " << i << " is : " << v[i] << "\n";
+  for (auto &x : v) {
+    cout << x << "\n";
+  }
 }
