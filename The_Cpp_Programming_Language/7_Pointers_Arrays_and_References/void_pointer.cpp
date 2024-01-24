@@ -14,7 +14,6 @@ void void_pointer_func(int *p) {
 }
 
 int main() {
-
   // In low level, we need to store or pass along an address of a memory
   // location
   // without actually knowing what type of object is stored there. A void∗ is
