@@ -14,6 +14,8 @@ public:
   }
 
   friend std::ostream &operator<<(std::ostream &stream, const String &string);
+
+  ~String() { delete[] m_buffer; }
 };
 
 std::ostream &operator<<(std::ostream &stream, const String &string) {
