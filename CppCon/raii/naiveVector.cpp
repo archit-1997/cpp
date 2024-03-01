@@ -26,6 +26,13 @@ public:
 
   int &operator[](int index) { return ptr_[index]; }
 
+  NaiveVector(const NaiveVector &naiveVector) {
+    std::cout << "Deep Copied !!\n";
+    ptr_ = new int[naiveVector.size_];
+    size_ = naiveVector.size_;
+    std::copy(naiveVector.ptr_, naiveVector.ptr_ + naiveVector.size_, ptr_);
+  }
+
   // Adding destructor to avoid memory leak
   ~NaiveVector() { delete[] ptr_; }
 };
@@ -41,6 +48,7 @@ int main() {
 
   NaiveVector v;
   v.push_back(1);
+  std::cout << &v[0] << "\n";
   {
     v.push_back(2);
     // now once v2 goes out of scope, destructor for v2 will be called.
@@ -48,9 +56,12 @@ int main() {
     // memory address. after the scope, memory allocated for v2 has been
     // destroyed. Post that, we're again trying to acces that memory which will
     // give us segmentation fault
+    std::cout << "Now going to do deep copy !!\n";
     NaiveVector v2 = v;
   }
 
   printVector(v);
+  std::cout << &v[0] << "\n";
+
   return 0;
 }
