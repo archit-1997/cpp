@@ -31,6 +31,16 @@ int main() {
   std::cout << name1 << "\n";
   std::cout << name2 << "\n";
 
+  // Shallow Copy : The default copy done by c++
   // After excuting the above line, the compiler will generate a segmentation
   // fault
+  // Why? This is because the memory hasn't been copied. So after the first cout
+  // for name1 goes out of scope, the destructor is called and it deletes the
+  // memory. Now after the second name2 goes out of scope, the destructor is
+  // called. Because the same memory was allocated for name1 and name2, the
+  // destructor will try to delete memory allocated to name2  but it has already
+  // been deleted. This means it's trying to access/delete memory that doesn't
+  // even exit. This is the reason we get segmentation fault
+
+
 }
