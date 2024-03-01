@@ -13,6 +13,9 @@ public:
     m_buffer[m_size] = 0;
   }
 
+  // operator overloading
+  char &operator[](int index) { return m_buffer[index]; }
+
   friend std::ostream &operator<<(std::ostream &stream, const String &string);
 
   ~String() { delete[] m_buffer; }
@@ -26,6 +29,7 @@ std::ostream &operator<<(std::ostream &stream, const String &string) {
 int main() {
 
   String name1 = "Archit";
+  name1[0] = 'C';
   String name2 = name1;
 
   std::cout << name1 << "\n";
@@ -40,7 +44,5 @@ int main() {
   // called. Because the same memory was allocated for name1 and name2, the
   // destructor will try to delete memory allocated to name2  but it has already
   // been deleted. This means it's trying to access/delete memory that doesn't
-  // even exit. This is the reason we get segmentation fault
-
-
+  // even exit. This is the reason we get segmentation fault.
 }
