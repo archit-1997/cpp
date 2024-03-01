@@ -25,6 +25,12 @@ std::ostream &operator<<(std::ostream &stream, const String &string) {
 
 int main() {
 
-  String name = "Archit";
-  std::cout << name;
+  String name1 = "Archit";
+  String name2 = name1;
+
+  std::cout << name1 << "\n";
+  std::cout << name2 << "\n";
+
+  // After excuting the above line, the compiler will generate a segmentation
+  // fault
 }
