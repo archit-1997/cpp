@@ -25,6 +25,9 @@ public:
   size_t size() { return size_; }
 
   int &operator[](int index) { return ptr_[index]; }
+
+  // Adding destructor to avoid memory leak
+  ~NaiveVector() { delete[] ptr_; }
 };
 
 void printVector(NaiveVector &v) {
