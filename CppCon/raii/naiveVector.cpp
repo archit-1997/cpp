@@ -37,7 +37,7 @@ public:
   // copy assignment constructor
   NaiveVector &operator=(const NaiveVector &naiveVector) {
     std::cout << "Copy Assignment Contructor : Deep Copied !!\n";
-    delete ptr_;
+    delete[] ptr_;
     ptr_ = new int[naiveVector.size_];
     size_ = naiveVector.size_;
     std::copy(naiveVector.ptr_, naiveVector.ptr_ + naiveVector.size_, ptr_);
