@@ -49,13 +49,16 @@ std::ostream &operator<<(std::ostream &stream, const String &string) {
   return stream;
 }
 
-void printString(String string) { std::cout << string << "\n"; }
+// passing the string as a const reference:
+// 1. By reference so that there is no copy (performed again)
+// 2. By const so that the scope of the function cannot modify the parameter
+// that has been passed So after this, we'll see only one copy
+void printString(const String &string) { std::cout << string << "\n"; }
 
 int main() {
 
   String name1 = "Archit";
-  String name2 = name1;
-  name1[0] = 'C';
+  String name2 = name1; name1[0] = 'C';
 
   printString(name1);
   printString(name2);
