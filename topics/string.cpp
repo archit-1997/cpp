@@ -18,10 +18,17 @@ public:
   // This also won't create a new object
   // String(const String &other) : m_buffer(other.m_buffer),
   // m_size(other.m_size) {
-  //   memcpy(m_buffer, other.m_buffer, other.m_size);
+  //   memcpy(this, &other, size_of(string));
   // }
 
-  String(const String &string) = delete;
+  // Seting the default copy constructor to delete to avoid shallow copy
+  // String(const String &string) = delete;
+
+  // overriding the default copy constructor to perform deep copy
+  String(const String &other) : m_size(other.m_size) {
+    m_buffer = new char[m_size + 1];
+    memcpy(m_buffer, other.m_buffer, m_size + 1);
+  }
 
   // operator overloading []
   char &operator[](int index) { return m_buffer[index]; }
@@ -41,8 +48,8 @@ std::ostream &operator<<(std::ostream &stream, const String &string) {
 int main() {
 
   String name1 = "Archit";
-  name1[0] = 'C';
   String name2 = name1;
+  name1[0] = 'C';
 
   std::cout << name1 << "\n";
   std::cout << name2 << "\n";
