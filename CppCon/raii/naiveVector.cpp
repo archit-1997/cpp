@@ -41,9 +41,16 @@ int main() {
 
   NaiveVector v;
   v.push_back(1);
-  v.push_back(2);
+  {
+    v.push_back(2);
+    // now once v2 goes out of scope, destructor for v2 will be called.
+    // becauase this is shallow copy, both v and v2 are pointing to the same
+    // memory address. after the scope, memory allocated for v2 has been
+    // destroyed. Post that, we're again trying to acces that memory which will
+    // give us segmentation fault
+    NaiveVector v2 = v;
+  }
 
   printVector(v);
-
   return 0;
 }
