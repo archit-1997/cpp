@@ -26,11 +26,22 @@ public:
 
   int &operator[](int index) { return ptr_[index]; }
 
+  // copy constructor
   NaiveVector(const NaiveVector &naiveVector) {
-    std::cout << "Deep Copied !!\n";
+    std::cout << "Copy Contructor : Deep Copied !!\n";
     ptr_ = new int[naiveVector.size_];
     size_ = naiveVector.size_;
     std::copy(naiveVector.ptr_, naiveVector.ptr_ + naiveVector.size_, ptr_);
+  }
+
+  // copy assignment constructor
+  NaiveVector &operator=(const NaiveVector &naiveVector) {
+    std::cout << "Copy Assignment Contructor : Deep Copied !!\n";
+    delete ptr_;
+    ptr_ = new int[naiveVector.size_];
+    size_ = naiveVector.size_;
+    std::copy(naiveVector.ptr_, naiveVector.ptr_ + naiveVector.size_, ptr_);
+    return *this;
   }
 
   // Adding destructor to avoid memory leak
@@ -48,6 +59,7 @@ int main() {
 
   NaiveVector v;
   v.push_back(1);
+  std::cout << "& v[0] before calling copy constructor\n";
   std::cout << &v[0] << "\n";
   {
     v.push_back(2);
@@ -60,7 +72,16 @@ int main() {
     NaiveVector v2 = v;
   }
 
+  std::cout << "& v[0] after calling copy constructor\n";
+  std::cout << &v[0] << "\n";
+
+  std::cout << "Printing the elements of NaiveVector v\n";
   printVector(v);
+
+  NaiveVector v3;
+  v3 = v;
+
+  std::cout << "& v[0] after calling copy assignment constructor\n";
   std::cout << &v[0] << "\n";
 
   return 0;
