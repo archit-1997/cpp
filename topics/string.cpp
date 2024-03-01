@@ -26,6 +26,10 @@ public:
 
   // overriding the default copy constructor to perform deep copy
   String(const String &other) : m_size(other.m_size) {
+    // Added this print statement to demonstrate that when we're calling
+    // printString function, then also we're doing deep copying which is getting
+    // wasted.
+    std::cout << "Deep Copied String\n";
     m_buffer = new char[m_size + 1];
     memcpy(m_buffer, other.m_buffer, m_size + 1);
   }
@@ -45,14 +49,16 @@ std::ostream &operator<<(std::ostream &stream, const String &string) {
   return stream;
 }
 
+void printString(String string) { std::cout << string << "\n"; }
+
 int main() {
 
   String name1 = "Archit";
   String name2 = name1;
   name1[0] = 'C';
 
-  std::cout << name1 << "\n";
-  std::cout << name2 << "\n";
+  printString(name1);
+  printString(name2);
 
   // Shallow Copy : The default copy done by c++
   // After excuting the above line, the compiler will generate a segmentation
