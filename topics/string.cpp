@@ -13,14 +13,23 @@ public:
     m_buffer[m_size] = 0;
   }
 
-  // operator overloading
+  // NOTE : There is a default copy constructor provided by C++.
+  // We can use this as well but this is also used to copy the data members
+  // This also won't create a new object
+  String(const String &other) : m_buffer(other.m_buffer), m_size(other.m_size) {
+    memcpy(m_buffer, other.m_buffer, other.m_size);
+  }
+
+  // operator overloading []
   char &operator[](int index) { return m_buffer[index]; }
 
+  // operator overloading <<
   friend std::ostream &operator<<(std::ostream &stream, const String &string);
 
   ~String() { delete[] m_buffer; }
 };
 
+// operator overloading <<
 std::ostream &operator<<(std::ostream &stream, const String &string) {
   stream << string.m_buffer;
   return stream;
