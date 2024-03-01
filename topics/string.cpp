@@ -16,9 +16,12 @@ public:
   // NOTE : There is a default copy constructor provided by C++.
   // We can use this as well but this is also used to copy the data members
   // This also won't create a new object
-  String(const String &other) : m_buffer(other.m_buffer), m_size(other.m_size) {
-    memcpy(m_buffer, other.m_buffer, other.m_size);
-  }
+  // String(const String &other) : m_buffer(other.m_buffer),
+  // m_size(other.m_size) {
+  //   memcpy(m_buffer, other.m_buffer, other.m_size);
+  // }
+
+  String(const String &string) = delete;
 
   // operator overloading []
   char &operator[](int index) { return m_buffer[index]; }
