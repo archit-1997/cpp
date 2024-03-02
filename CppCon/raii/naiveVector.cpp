@@ -6,7 +6,10 @@ private:
   size_t size_;
 
 public:
-  NaiveVector() : ptr_(nullptr), size_(0) {}
+  NaiveVector() : ptr_(nullptr), size_(0) {
+
+    std::cout << "Default Constructor called\n";
+  }
 
   void push_back(int newValue) {
     int *newptr_ = new int[size_ + 1];
@@ -27,20 +30,37 @@ public:
   int &operator[](int index) { return ptr_[index]; }
 
   // copy constructor
-  NaiveVector(const NaiveVector &naiveVector) {
+  NaiveVector(const NaiveVector &rhs) {
     std::cout << "Copy Contructor : Deep Copied !!\n";
-    ptr_ = new int[naiveVector.size_];
-    size_ = naiveVector.size_;
-    std::copy(naiveVector.ptr_, naiveVector.ptr_ + naiveVector.size_, ptr_);
+    this->ptr_ = new int[rhs.size_];
+    this->size_ = rhs.size_;
+    std::copy(rhs.ptr_, rhs.ptr_ + rhs.size_, this->ptr_);
   }
 
-  // copy assignment constructor
-  NaiveVector &operator=(const NaiveVector &naiveVector) {
+  void swap(NaiveVector &a, NaiveVector &b) {
+    std::cout << "Swap method called \n";
+    // copying the value of ptr_
+    int *tmp_ptr = a.ptr_;
+    a.ptr_ = b.ptr_;
+    b.ptr_ = tmp_ptr;
+    // copying the value of size_
+    int tmp_size = a.size_;
+    a.size_ = b.size_;
+    b.size_ = tmp_size;
+  }
+
+  NaiveVector &operator=(const NaiveVector &rhs) {
+    // to avoid memory leak
+    // let's say we created NaiveVector v3; and did v3.push_back a couple of
+    // times Now if we do v3=v, so we'll have to delete the memory to which v3
+    // was previously pointing to
+    delete[] this->ptr_;
     std::cout << "Copy Assignment Contructor : Deep Copied !!\n";
-    delete[] ptr_;
-    ptr_ = new int[naiveVector.size_];
-    size_ = naiveVector.size_;
-    std::copy(naiveVector.ptr_, naiveVector.ptr_ + naiveVector.size_, ptr_);
+    std::cout << "Going to call copy constructor inside conopy assignment "
+                 "constructor\n";
+    NaiveVector copy = rhs;
+    // we need to swap the contents of copy and *this
+    swap(copy, *this);
     return *this;
   }
 
@@ -59,30 +79,35 @@ int main() {
 
   NaiveVector v;
   v.push_back(1);
-  std::cout << "& v[0] before calling copy constructor\n";
-  std::cout << &v[0] << "\n";
+  std::cout << "v[0] after v.push_back(1) " << &v[0] << "\n";
   {
     v.push_back(2);
     // now once v2 goes out of scope, destructor for v2 will be called.
+    std::cout << "v[0] after v.push_back(2) " << &v[0] << "\n";
     // becauase this is shallow copy, both v and v2 are pointing to the same
     // memory address. after the scope, memory allocated for v2 has been
     // destroyed. Post that, we're again trying to acces that memory which will
     // give us segmentation fault
-    std::cout << "Now going to do deep copy !!\n";
+    std::cout << "Now going to call copy constructor for deep copy!!\n";
+    // NOTE: Here only copy constructor will be called. Default constructor
+    // won't be called.
     NaiveVector v2 = v;
   }
 
-  std::cout << "& v[0] after calling copy constructor\n";
-  std::cout << &v[0] << "\n";
+  std::cout << "v[0] after calling copy constructor " << &v[0] << "\n";
 
   std::cout << "Printing the elements of NaiveVector v\n";
   printVector(v);
 
+  std ::cout << " Will now call default constructor again!!\n";
   NaiveVector v3;
   v3 = v;
 
-  std::cout << "& v[0] after calling copy assignment constructor\n";
-  std::cout << &v[0] << "\n";
+  std::cout << "v[0] after calling copy assignment constructor " << &v[0]
+            << "\n";
+
+  std::cout << "Printing the elements of NaiveVector v3\n";
+  printVector(v3);
 
   return 0;
 }
