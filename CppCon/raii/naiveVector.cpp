@@ -68,7 +68,10 @@ public:
   }
 
   // Adding destructor to avoid memory leak
-  ~NaiveVector() { delete[] ptr_; }
+  ~NaiveVector() {
+    std::cout << "Destructor is called\n";
+    delete[] ptr_;
+  }
 };
 
 void printVector(NaiveVector &v) {
