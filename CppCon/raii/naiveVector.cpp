@@ -37,6 +37,7 @@ public:
     std::copy(rhs.ptr_, rhs.ptr_ + rhs.size_, this->ptr_);
   }
 
+  // Method to swap two pointers
   void swap(NaiveVector &a, NaiveVector &b) {
     std::cout << "Swap method called \n";
     // copying the value of ptr_
@@ -49,15 +50,17 @@ public:
     b.size_ = tmp_size;
   }
 
+  // Self copyable copy assingment constructor
   NaiveVector &operator=(const NaiveVector &rhs) {
     // to avoid memory leak
     // let's say we created NaiveVector v3; and did v3.push_back a couple of
     // times Now if we do v3=v, so we'll have to delete the memory to which v3
     // was previously pointing to
-    delete[] this->ptr_;
     std::cout << "Copy Assignment Contructor : Deep Copied !!\n";
     std::cout << "Going to call copy constructor inside conopy assignment "
                  "constructor\n";
+    // This will not generate memory leak because when copy goes out of scope,
+    // the destructor will be called.
     NaiveVector copy = rhs;
     // we need to swap the contents of copy and *this
     swap(copy, *this);
@@ -108,6 +111,9 @@ int main() {
 
   std::cout << "Printing the elements of NaiveVector v3\n";
   printVector(v3);
+
+  std::cout << "Teseting if copy assignment constructor is self copyable\n";
+  v3 = v3;
 
   return 0;
 }
