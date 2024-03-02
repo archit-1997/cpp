@@ -4,6 +4,10 @@ struct RAIIPtr {
   int *ptr_;
   RAIIPtr(int *p) : ptr_(p) {}
   ~RAIIPtr() { delete[] ptr_; };
+  // deleting the copy constructor
+  RAIIPtr(const RAIIPtr &rhs) = delete;
+  // deleting the copy assignment constructor
+  RAIIPtr &operator=(const RAIIPtr &rhs) = delete;
 };
 
 int main() {
